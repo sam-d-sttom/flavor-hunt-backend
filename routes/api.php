@@ -11,4 +11,4 @@ Route::get('/user', function (Request $request) {
 Route::get('/getAllRecipes', [RecipeController::class,'getAllRecipes']);
 Route::get('/getRecipesByTag', [RecipeController::class,'getRecipesByTag']);
 Route::get('/getLatestRecipes', [RecipeController::class,'getLatestRecipes']);
-Route::get('/getLatestRecipesByCountry', [RecipeController::class,'getLatestRecipesByCountry']);
+Route::get('/getRecipesBasedOnSearchParams', [RecipeController::class,'getRecipesBasedOnSearchParams']);

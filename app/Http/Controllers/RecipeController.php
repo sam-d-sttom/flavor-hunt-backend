@@ -25,7 +25,7 @@ class RecipeController extends Controller
      * Summary of getAllRecipesByTag
      * Returns a json of recipes based on the tag specified
      * @param \Illuminate\Http\Request $request
-     * @return Request
+     * @return 
      */
     public function getRecipesByTag(Request $request){
         if(!$request->has('tag')){
@@ -89,5 +89,35 @@ class RecipeController extends Controller
         $recipes = Recipe::whereRaw("FIND_IN_SET('$country', country)")->orderBy("id","desc")->limit(3)->get();
 
         return $recipes;
+    }
+
+    /**
+     * Summary of getRecipesBasedOnSearchParams
+     * This function returns a list of recipes based on if the search parameter matches any of the following column
+     * @return
+     */
+    public function getRecipesBasedOnSearchParams(Request $request){
+        if(!$request->has('search')){
+            return response()->json([
+                'status_code' => '200',
+                'message' => 'Please specify a search as a parameter',
+            ]);
+        }
+
+        $searchParam = $request['search'];
+        $searchParam = trim($searchParam);
+
+        $recipes = Recipe::where('name', 'like', '%' . $searchParam . '%')->
+        orWhere('description','like', '%' . $searchParam . '%')->
+        orWhere('country', 'like', '%' . $searchParam . '%')->
+        orWhere('ingredients','like', '%' . $searchParam . '%')->
+        orWhere('tags','like', '%' . $searchParam . '%')->get();
+
+        return response()->json([
+            'status_code' => '200',
+            'message' => 'Successful',
+            'data' => $recipes
+        ]);
+
     }
 }
