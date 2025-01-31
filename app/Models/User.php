@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    /**
+     * Summary of recipe
+     * relationship with the recipe model
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Recipe, User>
+     */
+    public function recipe(){
+        return $this->hasMany(Recipe::class);
+    }
 }
