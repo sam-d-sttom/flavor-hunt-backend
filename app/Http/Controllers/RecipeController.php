@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
+use App\Http\Requests\RecipeRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\RecipeResource;
+use Illuminate\Support\Facades\Validator;
 
 class RecipeController extends Controller
 {
+
+
     /**
      * Summary of index
      * Get a list of all recipes
@@ -13,8 +21,10 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+        $recipes = RecipeResource::collection(Recipe::all());
+        return response()->json($recipes);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -24,16 +34,33 @@ class RecipeController extends Controller
         //
     }
 
+
     /**
      * Summary of store
      * Store a new recipe
      * @param \Illuminate\Http\Request $request
      * @return void
      */
-    public function store(Request $request)
+    public function store(RecipeRequest $request)
     {
-        //
+
+        $validatedRequest = $request->validated();
+
+        $validatedRequest['instructions'] = json_encode($validatedRequest['instructions']);
+        $validatedRequest['ingredients'] = json_encode($validatedRequest['ingredients']);
+
+        $user_id = Auth::id();
+
+        $validatedRequest['user_id'] = $user_id;
+
+        $recipe = Recipe::create($validatedRequest);
+
+        return response()->json([
+            "message" => "Recipe created successfully",
+            "recipe" => $recipe
+        ]);
     }
+
 
     /**
      * Summary of show

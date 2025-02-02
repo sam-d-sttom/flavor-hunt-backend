@@ -17,8 +17,15 @@ class RecipeResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->name,
+            'description' => $this->description,
             'ingredients' => $this->ingredients,
             'instructions' => $this->instructions,
+            'tags' => $this->tags,
+            'prep_time' => $this->prep_time,
+            'cook_time' => $this->cook_time,
+            'total_time' => $this->total_time,
+            'servings' => $this->servings,
+            'calories' => $this->calories,
             'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
