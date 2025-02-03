@@ -9,8 +9,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/user/login', [UserController::class, 'login']);
 Route::post('/user/create', [UserController::class, 'store']);
-Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/user/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::resource('recipes', RecipeController::class)->middleware('auth:sanctum');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repository\RecipeRepository;
 use App\Models\User;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Validator;
 class RecipeController extends Controller
 {
 
+    private $recipeRepository;
+
+    public function __construct(RecipeRepository $recipeRepository)
+    {
+        $this->recipeRepository = $recipeRepository;
+    }
 
     /**
      * Summary of index
@@ -46,14 +53,10 @@ class RecipeController extends Controller
 
         $validatedRequest = $request->validated();
 
-        $validatedRequest['instructions'] = json_encode($validatedRequest['instructions']);
-        $validatedRequest['ingredients'] = json_encode($validatedRequest['ingredients']);
+        $recipe = $this->recipeRepository->createRecipe($validatedRequest);
 
-        $user_id = Auth::id();
-
-        $validatedRequest['user_id'] = $user_id;
-
-        $recipe = Recipe::create($validatedRequest);
+        $recipe["instructions"] = json_decode($recipe["instructions"]);
+        $recipe["ingredients"] = json_decode($recipe["ingredients"]);
 
         return response()->json([
             "message" => "Recipe created successfully",
