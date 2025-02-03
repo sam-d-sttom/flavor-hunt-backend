@@ -17,6 +17,11 @@ class RecipeRepository
         $validatedRequest['instructions'] = json_encode($validatedRequest['instructions']);
         $validatedRequest['ingredients'] = json_encode($validatedRequest['ingredients']);
 
+        //Tags is not normally required, so should be encoded conditionally.
+        if(isset($validatedRequest['tags'])) {
+            $validatedRequest['tags'] = json_encode($validatedRequest['tags']);
+        }
+
         $user_id = Auth::id();
 
         $validatedRequest['user_id'] = $user_id;

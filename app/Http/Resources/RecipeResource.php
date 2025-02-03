@@ -15,18 +15,21 @@ class RecipeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'title' => $this->name,
-            'description' => $this->description,
-            'ingredients' => $this->ingredients,
-            'instructions' => $this->instructions,
-            'tags' => $this->tags,
-            'prep_time' => $this->prep_time,
-            'cook_time' => $this->cook_time,
-            'total_time' => $this->total_time,
-            'servings' => $this->servings,
-            'calories' => $this->calories,
-            'created_at' => $this->created_at->format('Y-m-d'),
+            "message" => $this->message,
+            "data" => [
+                'id' => $this->recipe->id,
+                'title' => $this->recipe->name,
+                'description' => $this->recipe->description,
+                'ingredients' => $this->recipe->ingredients,
+                'instructions' => $this->recipe->instructions,
+                'tags' => $this->recipe->tags,
+                'prep_time' => $this->recipe->prep_time,
+                'cook_time' => $this->recipe->cook_time,
+                'total_time' => $this->recipe->total_time,
+                'servings' => $this->recipe->servings,
+                'calories' => $this->recipe->calories,
+                'created_at' => $this->recipe->created_at->format('Y-m-d'),
+            ]
         ];
     }
 }

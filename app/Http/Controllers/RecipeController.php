@@ -44,9 +44,8 @@ class RecipeController extends Controller
 
     /**
      * Summary of store
-     * Store a new recipe
-     * @param \Illuminate\Http\Request $request
-     * @return void
+     * @param \App\Http\Requests\RecipeRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(RecipeRequest $request)
     {
@@ -58,10 +57,11 @@ class RecipeController extends Controller
         $recipe["instructions"] = json_decode($recipe["instructions"]);
         $recipe["ingredients"] = json_decode($recipe["ingredients"]);
 
-        return response()->json([
-            "message" => "Recipe created successfully",
-            "recipe" => $recipe
-        ]);
+        if($recipe['tags'] !== null) {
+            $recipe['tags'] = json_decode($recipe['tags']);
+        }
+
+        return (new RecipeResource((object) ["message" => "Recipe created successfully", "recipe" => $recipe]))->response()->setStatusCode(201);
     }
 
 

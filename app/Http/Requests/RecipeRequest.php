@@ -23,11 +23,18 @@ class RecipeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'description' => 'sometimes|string',
             'ingredients' => 'required|array',
             'ingredients.*.name' => 'required|string',
             'ingredients.*.quantity' => 'required|numeric',
             'ingredients.*.unit' => 'required|string',
             'instructions' => 'required|array',
+            'tags' => 'sometimes|array',
+            'prep_time' => 'sometimes|integer',
+            'cook_time' => 'sometime|integer',
+            'total_time'=> 'sometimes|integer',
+            'servings'=> 'sometimes|integer',
+            'calories'=> 'sometimes|integer',
         ];
     }
 
