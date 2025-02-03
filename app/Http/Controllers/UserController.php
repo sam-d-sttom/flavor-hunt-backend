@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repository\UserRepository;
 use App\Http\Requests\LoginUserRequest;
+use App\Http\Resources\UserLoginResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -22,9 +23,9 @@ class UserController extends Controller
     public function store() {}
 
     /**
+     * Summary of login
      * Log in a user and return a Sanctum token.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\LoginUserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(LoginUserRequest $request)
@@ -35,10 +36,9 @@ class UserController extends Controller
         //validate user data
         [$user, $token] = $this->userRepository->validateUser($credentials);
 
-        return response()->json([
-            'message' => 'Login successful',
-            'token' => $token,
-        ]);
+        return (new UserLoginResource((object) ['user' => $user, 'token' => $token]))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -53,6 +53,6 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Logout successful',
-        ]);
+        ], 200);
     }
 }
