@@ -2,13 +2,21 @@
 
 namespace App\Http\Repository;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserRepository 
 {
 
-    public function createUser(){
-
+    /**
+     * Summary of createUser
+     * creates a user and returns the user details
+     * @param array $credentials
+     * @return user
+     */
+    public function createUser(Array $credentials){
+        $user = User::create($credentials);
+        return $user;
     }
 
     /**

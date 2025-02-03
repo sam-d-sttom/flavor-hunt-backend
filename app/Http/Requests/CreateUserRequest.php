@@ -22,7 +22,7 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|regex:/^(?![.-])[a-zA-Z0-9_.-]{3,30}(?<![.-])$/',
+            'username' => 'required|string|regex:/^(?![.-])[a-zA-Z0-9_.-]{3,30}(?<![.-])$/|unique:users,username',
             'last_name' => 'required|string|regex:/^[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+)*$/',
             'first_name' => 'required|string|regex:/^[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+)*$/',
             'email' => 'required|string|email|max:255|unique:users,email',

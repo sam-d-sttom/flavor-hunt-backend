@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repository\UserRepository;
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\UserLoginResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -20,7 +22,19 @@ class UserController extends Controller
 
     public function getUsers() {}
 
-    public function store() {}
+    /**
+     * Summary of store
+     * Create new user.
+     * @param \App\Http\Requests\CreateUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(CreateUserRequest $request) {
+        $credentials = $request->validated();
+        $user = $this->userRepository->createUser($credentials);
+
+        return (new UserResource((object) ['message' => 'User created successfully', 'user' => $user]))->response()->setStatusCode(201);
+    }
+
 
     /**
      * Summary of login
