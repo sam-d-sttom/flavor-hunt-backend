@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repository\UserRepository;
 use App\Http\Requests\LoginUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,11 +10,16 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function getUsers() {}
 
-    public function store() {
-        
-    }
+    public function store() {}
 
     /**
      * Log in a user and return a Sanctum token.
@@ -23,22 +29,11 @@ class UserController extends Controller
      */
     public function login(LoginUserRequest $request)
     {
-
+        //validate json data sent
         $credentials = $request->validated();
 
-        $loginType = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? "email" : "username";
-
-        if (!Auth::attempt([$loginType => $credentials['login'], 'password' => $credentials['password']])) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user = Auth::user();
-
-        // Delete all pre-existing tokens
-        $user->tokens()->delete();
-
-        // Create a new token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        //validate user data
+        [$user, $token] = $this->userRepository->validateUser($credentials);
 
         return response()->json([
             'message' => 'Login successful',
