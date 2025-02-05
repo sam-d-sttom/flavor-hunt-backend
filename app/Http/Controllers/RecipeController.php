@@ -54,13 +54,6 @@ class RecipeController extends Controller
 
         $recipe = $this->recipeRepository->createRecipe($validatedRequest);
 
-        $recipe["instructions"] = json_decode($recipe["instructions"]);
-        $recipe["ingredients"] = json_decode($recipe["ingredients"]);
-
-        if($recipe['tags'] !== null) {
-            $recipe['tags'] = json_decode($recipe['tags']);
-        }
-
         return (new RecipeResource((object) ["message" => "Recipe created successfully", "recipe" => $recipe]))->response()->setStatusCode(201);
     }
 
