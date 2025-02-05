@@ -20,6 +20,12 @@ class Recipe extends Model
         'calories',
     ];
 
+    protected $casts = [
+        'ingredients'=> 'array',
+        'instructions'=> 'array',
+        'tags'=> 'array',
+    ];
+
     /**
      * Summary of user
      * relationship with the user model.
