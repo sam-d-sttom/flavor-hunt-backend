@@ -48,7 +48,13 @@ class UserController extends Controller
         $credentials = $request->validated();
 
         //validate user data
-        [$user, $token] = $this->userRepository->validateUser($credentials);
+        $validationResult = $this->userRepository->validateUser($credentials);
+
+        if($validationResult === null){
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }else{
+            [$user, $token] = $validationResult;
+        }
 
         return (new UserLoginResource((object) ['user' => $user, 'token' => $token]))
             ->response()

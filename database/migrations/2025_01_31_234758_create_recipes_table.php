@@ -25,6 +25,9 @@ return new class extends Migration
             $table->integer('servings')->nullable();
             $table->integer('calories')->nullable();
             $table->timestamps();
+
+            // ensures user recipes have just one unique name.
+            $table->unique(['user_id', 'name']);
         });
     }
 

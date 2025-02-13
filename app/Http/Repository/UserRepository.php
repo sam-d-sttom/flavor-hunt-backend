@@ -31,7 +31,7 @@ class UserRepository
         $loginType = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? "email" : "username";
 
         if (!Auth::attempt([$loginType => $credentials['login'], 'password' => $credentials['password']])) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return null;
         }
 
         $user = Auth::user();
