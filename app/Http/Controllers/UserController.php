@@ -47,7 +47,7 @@ class UserController extends Controller
         //validate json data sent
         $credentials = $request->validated();
 
-        //validate user data
+        //attempt login in user
         $validationResult = $this->userRepository->validateUser($credentials);
 
         if($validationResult === null){
