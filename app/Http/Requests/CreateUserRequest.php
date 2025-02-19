@@ -22,11 +22,11 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|regex:/^(?![.-])[a-zA-Z0-9_.-]{3,30}(?<![.-])$/|unique:users,username',
-            'last_name' => 'required|string|regex:/^[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+)*$/',
-            'first_name' => 'required|string|regex:/^[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ\'-]+)*$/',
+            'username' => 'required|string|regex:/^(?![.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]{3,30}(?<![.-])$/|unique:users,username',
+            'last_name' => 'required|string|regex:/^(?!.*[\'-]{2})(?!.*\s{2})[a-zA-ZÀ-ÖØ-öø-ÿ]+(?:[\'-][a-zA-ZÀ-ÖØ-öø-ÿ]+)?(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ]+(?:[\'-][a-zA-ZÀ-ÖØ-öø-ÿ]+)?)?$/',
+            'first_name' => 'required|string|regex:/^(?!.*[\'-]{2})(?!.*\s{2})[a-zA-ZÀ-ÖØ-öø-ÿ]+(?:[\'-][a-zA-ZÀ-ÖØ-öø-ÿ]+)?(?:\s[a-zA-ZÀ-ÖØ-öø-ÿ]+(?:[\'-][a-zA-ZÀ-ÖØ-öø-ÿ]+)?)?$/',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|max:64|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+            'password' => 'required|string|min:8|max:64|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/',
         ];
     }
 }

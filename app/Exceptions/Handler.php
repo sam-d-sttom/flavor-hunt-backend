@@ -21,5 +21,4 @@ class Handler extends ExceptionHandler
         return response()->json(['message' => 'Unauthorized'], 401);
     }
 
-    // ...existing code...
 }
